@@ -16,18 +16,60 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://apis.google.com/js/api:client.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
 
   </head>
-  <body class="container bg-warning">
+  <body>
+
+    <div class="nav">
+      <div class="row text-center">
+        <span id="put-img" style="margin-right: 6vw;margin-top: 2vw;">
+          <img id="profile-img" class="profile-img" src="assets/tpr.png" alt="">
+        </span>
+          
+      </div>
+    </div> 
+
+    <div class="container">
     <div class="row">
-      <div class="col-12 text-center p-5">
-        <h1>TIC - TAC - THROW</h1>
-        <h2>Coming Soon...</h2>
+      <div class="col-12 text-center p-3 head">
+        <h1 class="tictac">TIC TAC</h1>
+        <h1 class="throw">THROW</h1>
+      </div>
+      <div class="col-12 text-center">
+        <button type="button" class="btn btn-c3 btn-start">START</button> 
+      </div>
+      <div class="col-12 text-center"> 
+        <button id="btnLogin" type="button" class="btn btn-light btn-gg logged-out">
+          <span href="#" class="google btn">
+            <img class="m-1" src="assets/google-icon.png" alt="" style="height: 1.5vw;"> Login with Google+
+          </span>
+        </button> 
+      </div>
+      <div class="col-12 text-center"> 
+        <button id="btnLogout" type="button" class="btn btn-light  logged-in">
+          <span href="#" class="google btn">
+            <i class="bi bi-box-arrow-right"></i> Logout
+          </span>
+        </button> 
       </div>
     </div>
+  </div>
   </body>
   <script>
       // Initialize Firebase
+      const firebaseConfig = {
+      apiKey: "AIzaSyCVuneOBuirdDyn_pTP9XuCnHOtxD40HbQ",
+      authDomain: "tictacthrow-63173.firebaseapp.com",
+      databaseURL: "https://tictacthrow-63173-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "tictacthrow-63173",
+      storageBucket: "tictacthrow-63173.appspot.com",
+      messagingSenderId: "666453366418",
+      appId: "1:666453366418:web:d070b331181ccae86ab84b",
+      measurementId: "G-XR9BLXQ41E"
+    };
       firebase.initializeApp(firebaseConfig);      
     </script>
+    <script type="text/javascript" src="auth.js"></script>
 </html>
