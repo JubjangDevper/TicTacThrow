@@ -188,13 +188,14 @@ html, body {
     display: flex;
     flex-wrap: wrap;
     align-content: flex-start;
+    align-items: center;
     margin-top: 2vw;
     width: 49vw;
 }
 .carousel{
     border: 10px solid var(--color2);
     border-radius: 40px;
-    width: 41vw;
+    width: 40vw;
     height: 6vw;
     background-color: #fff;
     display: flex;
@@ -208,11 +209,26 @@ html, body {
 .arrow{
     margin: 0px;
     padding: 0px;
-    font-size: 3vw;
+    display: flex;
+    flex: auto;
+
 }
 .left{
     margin-right:1vw;
+    max-width: 3vw;
+    max-height: 3vw;
 }
+
 .right{
     margin-left:1vw;
+    max-width: 3vw;
+    max-height: 3vw;
+}
+
+.gun{
+    max-width: 6.2vw;
+    max-height: 6.2vw;
+    position: relative;
+    top: -15px;
+    margin-left: 4.5vw;
 }
