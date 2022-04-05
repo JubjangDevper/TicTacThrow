@@ -47,6 +47,8 @@ generateNumber(0);
             click_right = 0;
             click_left = 0;
         }
+        document.getElementById('gun').style.transitionDuration = "0.3s";
+        document.getElementById('gun').webkitTransitionTimingFunction = "ease-out";
         click_left++;
     }
 
@@ -61,10 +63,28 @@ generateNumber(0);
             click_right = 0;
             click_left = 0;
         }
+        document.getElementById('gun').style.transitionDuration = "0.3s";
+        document.getElementById('gun').webkitTransitionTimingFunction = "ease-out";
         click_right++;
     }
 
 //
 function mouseDown(){
     console.log(`Hold on`)
+}
+
+//Select Column Function
+function selectCol(){
+    var gunPosit = parseInt(document.getElementById('gun').style.marginLeft);
+    console.log(gunPosit)
+
+    if(gunPosit == 4){
+        console.log('Col1');
+    }
+    if(gunPosit == 18){
+        console.log('Col2');
+    }
+    if(gunPosit == 30){
+        console.log('Col3');
+    }
 }
