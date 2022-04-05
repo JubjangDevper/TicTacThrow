@@ -16,6 +16,7 @@
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
         <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
         <script src="https://apis.google.com/js/api:client.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="gp_style.css">
     
@@ -62,8 +63,9 @@
 
                       <div class="block">
                           <input type="image" class="arrow left" src="assets/left_arrow.png" onclick="left()">
-                          <div class="carousel">
-                            <img src="assets/gun.png" class="gun">
+                          <div id="output" class="carousel">
+                            <img src="assets/gun-h.png" class="gun">
+                            
                           </div>
                           <input type="image" class="arrow right" src="assets/right_arrow.png" onclick="right()">
                       </div>
@@ -80,7 +82,7 @@
                   </div>
                   <!--HOLD EVENTS PLAYER 2 -->
                   <div class="chargeBar2"></div>
-                  <div class="butStyle2"><button class="holdbutt" onmousedown ="clickFunction()">HOLD</button></div>
+                  <div class="butStyle2"><button class="holdbutt" onmousedown ="mouseDown()" onmouseup="mouseUp()">HOLD</button></div>
                 </div>
 
 
