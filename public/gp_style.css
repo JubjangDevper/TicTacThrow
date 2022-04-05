@@ -13,15 +13,19 @@
 
 html, body {
     background-color: var(--color1);
- }
+}
 
- 
+/* ---------------- CENTER ---------------- */
+
+
  /* ---------------- TABLE ---------------- */
+
 
 .btnG{
     font-size: 5vw; 
     text-align: center; 
     border: 2px solid var(--color2);
+    width: 40vw;
 }
 
 .borderTB{
@@ -29,11 +33,10 @@ html, body {
     border-radius: 20px;
     background: var(--color2);
     max-width: 40vw;
-    margin-top: 8vw;
-    margin-left: 4vw;
+    margin-top: 20%;
 }
 .borderTB-inner{
-    border-radius: calc(20px - 10px);
+    border-radius: 10px;
     background: #fff;
     margin: 0;
 }
@@ -130,7 +133,7 @@ html, body {
 .chargeBar1{
     background-color: #fff;
     width: 6vw;
-    height: 25vw;
+    height: 28vw;
     border-radius: 60px;
     margin-left: 3vw;
 }
@@ -162,7 +165,7 @@ html, body {
 .chargeBar2{
     background-color: #fff;
     width: 6vw;
-    height: 25vw;
+    height: 28vw;
     border-radius: 60px;
     margin-left: 14.5vw;
     
@@ -195,7 +198,7 @@ html, body {
 .carousel{
     border: 10px solid var(--color2);
     border-radius: 40px;
-    width: 40vw;
+    width: 41vw;
     height: 6vw;
     background-color: #fff;
     display: flex;

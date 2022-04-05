@@ -22,7 +22,7 @@
       </head>
       <body>
         <div class="container-fluid" style="overflow: hidden;">
-            <div class="row">
+            <div class="row ">
 
                 <div class="col-3">
                   <!-- PROFILE PLAYER 1 HERE -->
@@ -37,7 +37,8 @@
                   <div class="butStyle1"><button class="holdbutt" onmousedown ="clickFunction()">HOLD</button></div>
                 </div>
 
-                <div class="container col-6">
+                <div class="col-6" align="center">
+                 
                     <div class="borderTB">
                       <div class="borderTB-inner">
                         <div class="row" id="row-1" style="height: 9vw;">
@@ -58,17 +59,18 @@
                       </div>
                     </div>
                     <!--SLIDER -->
-                    
+
                       <div class="block">
-                          <input type="image" class="arrow left" src="assets/left_arrow.png">
+                          <input type="image" class="arrow left" src="assets/left_arrow.png" onclick="left()">
                           <div class="carousel">
                             <img src="assets/gun.png" class="gun">
                           </div>
-                          <input type="image" class="arrow right" src="assets/right_arrow.png">
+                          <input type="image" class="arrow right" src="assets/right_arrow.png" onclick="right()">
                       </div>
                     
                 </div>
-
+                
+                
                 <div class="col-3">
                   <!-- PROFILE PLAYER 2 HERE -->
                   <div class="profile-p2">
@@ -80,7 +82,8 @@
                   <div class="chargeBar2"></div>
                   <div class="butStyle2"><button class="holdbutt" onmousedown ="clickFunction()">HOLD</button></div>
                 </div>
-                
+
+
             </div>
           </div>
       </body>
