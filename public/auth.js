@@ -31,6 +31,7 @@ btnLogout.addEventListener('click', gglogout)//=> {
 //});
 function gglogout(){
     document.getElementById('name').innerHTML = ``;
+    document.getElementById('put-img').innerHTML = ``;
     firebase.auth().signOut().then(() => {
         console.log("Log out")
         users.reset();
