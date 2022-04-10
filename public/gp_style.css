@@ -163,10 +163,26 @@ html, body {
 }
 
 .power1{
+
     background-color: var(--color3);
     width: 6vw;
     height: 25vw;
     border-radius: 60px;
+}
+@keyframes mymove {
+    from {height: 20%;}
+    to {height: 100%;}
+  }
+
+.play-anim{
+    animation: mymove 0.9s alternate linear infinite;
+}
+
+.paused{
+    -webkit-animation-play-state:paused;
+    -moz-animation-play-state:paused;
+    -o-animation-play-state:paused; 
+    animation-play-state:paused;
 }
 
 /* ---------------- HOLD EVENTS P 2 ---------------- */
