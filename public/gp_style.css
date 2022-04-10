@@ -145,6 +145,7 @@ html, body {
     font-size: 15pt;
     color: #fff;
     background-color: var(--color2);
+    cursor: pointer;
 
 }
 .butStyle1{
@@ -159,6 +160,13 @@ html, body {
     align-items: center;
     justify-content: center;
     margin: 2.5vw;
+}
+
+.power1{
+    background-color: var(--color3);
+    width: 6vw;
+    height: 25vw;
+    border-radius: 60px;
 }
 
 /* ---------------- HOLD EVENTS P 2 ---------------- */
@@ -185,6 +193,14 @@ html, body {
     margin-left: 14vw;
     margin-top: 2.5vw;
 }
+
+.power2{
+    background-color: var(--color3);
+    width: 6vw;
+    height: 25vw;
+    border-radius: 60px;
+}
+
 
 /* ---------------- SLIDER ---------------- */
 .block{

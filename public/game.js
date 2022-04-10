@@ -68,10 +68,66 @@ generateNumber(0);
         click_right++;
     }
 
-//
-function mouseDown(){
-    console.log(`Hold on`)
+//Hold Events
+
+$(document).bind("contextmenu",function(e){
+    return false;
+      });
+
+
+var timer = 0,
+    timerInterval,
+    button = document.getElementById("button");
+
+button.addEventListener("mousedown", function() {
+  timerInterval = setInterval(function(){
+        if(timer == 0){
+            for (let i = 0; i < 3; i++) {
+                timer += 1;
+                //console.log('timer-plus: ' + timer); //increase values
+                charge(timer);
+            }
+        }
+        if(timer == 3){
+            for (let i = 0; i < 3; i++) {
+                //console.log('timer-minus: ' + timer); //decrease values
+                timer -= 1; 
+                charge(timer);
+            }
+        }
+
+  }, 200);
+});
+
+button.addEventListener("mouseup", function() {
+  clearInterval(timerInterval);
+  timer = 0;
+});
+
+function charge(timer){
+    let heightbar1 = document.querySelector('.power1');
+    let heightbar2 = document.querySelector('.power2');
+    //console.log(timer)
+
+    if(timer == 1){
+        console.log('switch1');
+        heightbar2.style.height = "8.3vw";
+    }
+    else if(timer == 2){
+        console.log('switch2');
+        heightbar2.style.height = "16.6vw";
+    }
+    else if(timer == 3){
+        console.log('switch3');
+        heightbar2.style.height = "25vw";
+    }
+
+    heightbar2.style.transitionDuration = "0.3s";
+    heightbar2.webkitTransitionTimingFunction = "ease-out";
 }
+
+ 
+
 
 //Select Column Function
 function selectCol(){
