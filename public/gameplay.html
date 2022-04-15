@@ -22,40 +22,54 @@
     
       </head>
       <body>
+        <!-- Image and text -->
+        <nav class="navbar navbar-light bg-pur p-0">
+          <a class="navbar-brand text-white mx-4" href="#">
+            <img src="assets/gun-p1.png" width="30" height="30" class="d-inline-block align-top " alt="">
+            TicTacThrow
+          </a>
+          <i class="bi bi-box-arrow-in-right text-white mx-4" style="font-size:3vw;"></i>
+        </nav>
         <div class="container-fluid" style="overflow: hidden;">
             <div class="row ">
-
                 <div class="col-3">
-                  <!-- PROFILE PLAYER 1 HERE -->
-                  <div class="profile-p1">
-                      <span id="user-profile1"><img src='assets/user.png' class="display-img1"></span>
-                      <span id="user-name1"><b class="display-name1">123456@gmail.com</b></span>
-                      <span id="user-state1"><h5 class="display-state1">YOUR TURN</h5></span>
+                  <div class="row">
+                    <div class="col-5">                      
+                      <span id="user-profile-x"><img src='assets/user.png' class="display-img1"></span>
+                    </div>
+                    <div class="col-7 mt-5">
+                      <span id="user-name-x"></span>
+                      <span id="user-position-x"><h5 class="display-state1">Player X</h5></span>
+                    </div>
                   </div>
+                  <!-- PROFILE PLAYER 1 HERE -->
                   
                   <!--HOLD EVENTS PLAYER 1 -->
-                  <div class="chargeBar1 d-flex"><div id="hold-x" class="power1 align-self-end"></div></div>
+                  <div class="chargeBar1 d-flex"><div id="hold-x" id="power-x" class="power-x align-self-end"></div></div>
                   <div class="butStyle1"><button id="button-x" class="holdbutt">HOLD</button></div>
                 </div>
 
                 <div class="col-6" align="center">
-                 
-                    <div class="borderTB">
+                  <div class="bg-light d-flex justify-content-center" id="statusShow">
+                    <h3 id="statusText" class="align-self-center">...</h3>
+                  </div>
+
+                    <div class="borderTB m-0">
                       <div class="borderTB-inner">
                         <div class="row" id="row-1" style="height: 9vw;">
-                          <div class="col table-col btnG" id="row-1-col-1"></div>
-                          <div class="col table-col btnG" id="row-1-col-2"></div>
-                          <div class="col table-col btnG" id="row-1-col-3"></div>
+                          <div class="col table-col btnG d-flex flex-column justify-content-center" id="row-1-col-1"></div>
+                          <div class="col table-col btnG d-flex flex-column justify-content-center" id="row-1-col-2"></div>
+                          <div class="col table-col btnG d-flex flex-column justify-content-center" id="row-1-col-3"></div>
                         </div>
                         <div class="row" id="row-2" style="height: 9vw;">
-                          <div class="col table-col btnG" id="row-2-col-1"></div>
-                          <div class="col table-col btnG" id="row-2-col-2"></div>
-                          <div class="col table-col btnG" id="row-2-col-3"></div>
+                          <div class="col table-col btnG d-flex flex-column justify-content-center" id="row-2-col-1"></div>
+                          <div class="col table-col btnG d-flex flex-column justify-content-center" id="row-2-col-2"></div>
+                          <div class="col table-col btnG d-flex flex-column justify-content-center" id="row-2-col-3"></div>
                         </div>
                         <div class="row" id="row-3" style="height: 9vw;">
-                          <div class="col table-col btnG" id="row-3-col-1"></div>
-                          <div class="col table-col btnG" id="row-3-col-2"></div>
-                          <div class="col table-col btnG" id="row-3-col-3"></div>
+                          <div class="col table-col btnG d-flex flex-column justify-content-center" id="row-3-col-1"></div>
+                          <div class="col table-col btnG d-flex flex-column justify-content-center" id="row-3-col-2"></div>
+                          <div class="col table-col btnG d-flex flex-column justify-content-center" id="row-3-col-3"></div>
                         </div>
                       </div>
                     </div>
@@ -75,13 +89,18 @@
                 
                 <div class="col-3">
                   <!-- PROFILE PLAYER 2 HERE -->
-                  <div class="profile-p2">
-                    <span id="user-profile2"><img src='assets/user.png' class="display-img2"></span>
-                    <span id="user-name2"><b class="display-name2">123456@gmail.com</b></span>
-                    <span id="user-state2"><h5 class="display-state2">Waiting...</h5></span>
+                  <div class="row">
+                    <div class="col-7 mt-5">
+                      <span class="float-end" id="user-name-o"></span><br>
+                      <span class="float-end" id="user-position-o"><h5 class="display-state2">Player O</h5></span>
+                    </div>
+                    <div class="col-5">                      
+                      <span id="user-profile-o"><img src='assets/user.png' class="display-img2"></span>
+                    </div>
+                    
                   </div>
                   <!--HOLD EVENTS PLAYER 2 -->
-                  <div class="chargeBar2 d-flex"><div id="hold-o" class="power2 align-self-end"></div></div>
+                  <div class="chargeBar2 d-flex"><div id="hold-o" class="power-o align-self-end"></div></div>
                   <div class="butStyle2 "><button id="button-o" class="holdbutt">HOLD</button></div>
 
                 </div>
@@ -90,8 +109,20 @@
             </div>
           </div>
       </body>
-
-      <script type="text/javascript" src="auth.js"></script>
+      <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+        apiKey: "AIzaSyCVuneOBuirdDyn_pTP9XuCnHOtxD40HbQ",
+        authDomain: "tictacthrow-63173.firebaseapp.com",
+        databaseURL: "https://tictacthrow-63173-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "tictacthrow-63173",
+        storageBucket: "tictacthrow-63173.appspot.com",
+        messagingSenderId: "666453366418",
+        appId: "1:666453366418:web:d070b331181ccae86ab84b",
+        measurementId: "G-XR9BLXQ41E"
+      };
+        firebase.initializeApp(firebaseConfig);      
+      </script>
       <script type="text/javascript" src="game.js"></script>
 
 </html>

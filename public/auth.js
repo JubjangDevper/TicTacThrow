@@ -40,6 +40,12 @@ function gglogout(){
       });
 }
 
+function start(event){
+  event.preventDefault();
+  location.href = 'gameplay.html'; 
+  console.log('Start');
+}
+
 var provider = new firebase.auth.GoogleAuthProvider();
 // Login
 const btnLogin = document.querySelector('#btnLogin');
