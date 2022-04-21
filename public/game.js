@@ -19,6 +19,19 @@ ref.on('value', snapshot => {
     getGameInfo(snapshot);
 })
 
+var btnLogout = document.getElementById('btnLogout');
+btnLogout.addEventListener('click',logout)
+
+function logout(){
+            let roomState = `room-state`
+            ref.child('game-1').update({
+                [roomState]: 5,
+            });
+        alert("Are you sure to Give up?");
+        location.href = 'index.html'
+        console.log("Give up")
+}
+
 function joinGame(event){
     const currentUser = firebase.auth().currentUser;
     console.log('[Join] Current user:', currentUser);
@@ -222,16 +235,16 @@ function charge(event){
     //console.log(timer)
     heightbar.classList.add("play-anim");
     heightbar.classList.remove("paused");
-    console.log('Exc',gunPosit , powerValue,randomImg,countTurn)
-    console.log('Add',mouseState,countTurn)
+    console.log('Exc',gunPosit , powerValue,randomImg,countXO)
+    console.log('Add',mouseState,countXO)
 }
 
-var countTurn = 1;
+var countXO;
 
 function putXO(){
-    if(countTurn % 2 == 0){
+    if(countXO % 2 == 0){
         if(gunPosit == 4 && powerValue > 240 ){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -240,11 +253,11 @@ function putXO(){
                 [onBoard]: 'row-1-col-1',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'O',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });
         }
         else if(gunPosit == 4 && powerValue < 240 && powerValue >= 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -253,11 +266,11 @@ function putXO(){
                 [onBoard]: 'row-2-col-1',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'O',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         else if(gunPosit == 4 && powerValue >= 0  && powerValue < 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -266,12 +279,12 @@ function putXO(){
                 [onBoard]: 'row-3-col-1',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'O',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         
         else if(gunPosit == 18 && powerValue > 240 ){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -280,11 +293,11 @@ function putXO(){
                 [onBoard]: 'row-1-col-2',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'O',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         else if(gunPosit == 18 && powerValue < 240 && powerValue >= 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -293,11 +306,11 @@ function putXO(){
                 [onBoard]: 'row-2-col-2',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'O',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         else if(gunPosit == 18 && powerValue >= 0  && powerValue < 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -306,12 +319,12 @@ function putXO(){
                 [onBoard]: 'row-3-col-2',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'O',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         
         else if(gunPosit == 30 && powerValue > 240 ){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -320,11 +333,11 @@ function putXO(){
                 [onBoard]: 'row-1-col-3',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'O',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         else if(gunPosit == 30 && powerValue < 240 && powerValue >= 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -333,11 +346,11 @@ function putXO(){
                 [onBoard]: 'row-2-col-3',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'O',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         else if(gunPosit == 30 && powerValue >= 0  && powerValue < 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -346,13 +359,13 @@ function putXO(){
                 [onBoard]: 'row-3-col-3',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'O',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }   
     }
-    else if (countTurn % 2 != 0){
+    else if (countXO % 2 != 0){
         if(gunPosit == 4 && powerValue > 240 ){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -361,11 +374,11 @@ function putXO(){
                 [onBoard]: 'row-1-col-1',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'X',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });
         }
         else if(gunPosit == 4 && powerValue < 240 && powerValue >= 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -374,11 +387,11 @@ function putXO(){
                 [onBoard]: 'row-2-col-1',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'X',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });
         }
         else if(gunPosit == 4 && powerValue >= 0  && powerValue < 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -387,12 +400,12 @@ function putXO(){
                 [onBoard]: 'row-3-col-1',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'X',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
 
         else if(gunPosit == 18 && powerValue > 240 ){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -401,11 +414,11 @@ function putXO(){
                 [onBoard]: 'row-1-col-2',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'X',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         else if(gunPosit == 18 && powerValue < 240 && powerValue >= 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -414,11 +427,11 @@ function putXO(){
                 [onBoard]: 'row-2-col-2',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'X',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         else if(gunPosit == 18 && powerValue >= 0  && powerValue < 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -427,12 +440,12 @@ function putXO(){
                 [onBoard]: 'row-3-col-2',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'X',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
 
         else if(gunPosit == 30 && powerValue > 240 ){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -441,11 +454,11 @@ function putXO(){
                 [onBoard]: 'row-1-col-3',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'X',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         else if(gunPosit == 30 && powerValue < 240 && powerValue >= 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -454,11 +467,11 @@ function putXO(){
                 [onBoard]: 'row-2-col-3',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'X',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
         else if(gunPosit == 30 && powerValue >= 0  && powerValue < 120){
-            countTurn += 1;
+            countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
             let onBoard_sym = `onBoard_sym`;
@@ -467,7 +480,7 @@ function putXO(){
                 [onBoard]: 'row-3-col-3',
                 [onBoard_img]: randomImg+'1',
                 [onBoard_sym]: 'X',
-                [roundCount]: countTurn,
+                [roundCount]: countXO,
             });        
         }
 
@@ -504,7 +517,7 @@ function getGameInfo(snapshot){
             switch (key) {
                 case 'room-state':
                     state = gameInfos[key];
-                    var countXO = snapshot.child("game-1/round").val();
+                    countXO = snapshot.child("game-1/round").val();
                     if (state == 0){
                         document.querySelector('#statusText').innerText = 'Waiting...';
                     }
@@ -549,13 +562,17 @@ function getGameInfo(snapshot){
                             var checkBoard = snapshot.child(`game-1/checkBoard-${onBoard}`).val();
                             console.log(whatSym,ImgSym,'---',onBoard_img,onBoard_sym,ImgSym_onBoard,checkBoard,onBoard)
                             if(whatSym == ''){
-                                writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
+                                writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
+                                writeonBoard.classList.add('active');
                                 console.log('writed');
                                 checkWin();
                             }
                             else if( whatSym == 'X' &&  onBoard_sym == 'O' ){
                                 if(ImgSym == 'h' && ImgSym_onBoard == "p" && checkBoard != 1){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
+                                    writeonBoard.classList.add('active');
+                                    document.querySelector('#statusText').innerText = 'X Win HPS';
+                                    writeonBoard.style.backgroundColor = '#dedede';
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -565,6 +582,9 @@ function getGameInfo(snapshot){
                                 }
                                 else if(ImgSym == 's' && ImgSym_onBoard == "h" && checkBoard != 1){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
+                                    writeonBoard.classList.add('active');
+                                    document.querySelector('#statusText').innerText = 'X Win HPS';
+                                    writeonBoard.style.backgroundColor = '#dedede';
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -574,6 +594,9 @@ function getGameInfo(snapshot){
                                 }
                                 else if(ImgSym == 'p' && ImgSym_onBoard == "s" && checkBoard != 1){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
+                                    writeonBoard.classList.add('active');
+                                    document.querySelector('#statusText').innerText = 'X Win HPS';
+                                    writeonBoard.style.backgroundColor = '#dedede';
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -585,6 +608,9 @@ function getGameInfo(snapshot){
                             else if( whatSym == 'O' &&  onBoard_sym == 'X' && checkBoard != 1){
                                 if(ImgSym == 'h' && ImgSym_onBoard == "p"){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
+                                    writeonBoard.classList.add('active');
+                                    document.querySelector('#statusText').innerText = 'O Win HPS';
+                                    writeonBoard.style.backgroundColor = '#dedede';
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -594,6 +620,9 @@ function getGameInfo(snapshot){
                                 }
                                 else if(ImgSym == 's' && ImgSym_onBoard == "h" && checkBoard != 1){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
+                                    writeonBoard.classList.add('active');
+                                    document.querySelector('#statusText').innerText = 'O Win HPS';
+                                    writeonBoard.style.backgroundColor = '#dedede';
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -603,6 +632,9 @@ function getGameInfo(snapshot){
                                 }
                                 else if(ImgSym == 'p' && ImgSym_onBoard == "s" && checkBoard != 1){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
+                                    writeonBoard.classList.add('active')
+                                    document.querySelector('#statusText').innerText = 'O Win HPS';
+                                    writeonBoard.style.backgroundColor = '#dedede';
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -617,7 +649,93 @@ function getGameInfo(snapshot){
                     if (state == 3){
                         var winner = snapshot.child("game-1/WinnerIs").val();
                         document.querySelector('#statusText').innerText = winner;
+                        document.querySelector(`#button-x`).disabled = true;
+                        document.querySelector(`#button-o`).disabled = true;
+                        document.getElementById('button-x').style.backgroundColor = 'grey';
+                        document.getElementById('button-o').style.backgroundColor = 'grey';
+                        document.getElementById('butStyle1').style.border = '0px solid white';
+                        document.getElementById('butStyle2').style.border = '0px solid white';
+                        
                         console.log(winner);
+                    }
+                case 'HowWin':
+                    how = gameInfos[key];
+                    if(how == 'a'){
+                        document.querySelector('#row-1-col-1').classList.add('red-bg');
+                        document.querySelector('#row-1-col-2').classList.add('red-bg');
+                        document.querySelector('#row-1-col-3').classList.add('red-bg');
+                    }
+                    else if(how == 'b'){
+                        document.querySelector('#row-2-col-1').classList.add('red-bg');
+                        document.querySelector('#row-2-col-2').classList.add('red-bg');
+                        document.querySelector('#row-2-col-3').classList.add('red-bg');
+                    }
+                    else if(how == 'c'){
+                        document.querySelector('#row-3-col-1').classList.add('red-bg');
+                        document.querySelector('#row-3-col-2').classList.add('red-bg');
+                        document.querySelector('#row-3-col-3').classList.add('red-bg');
+                    }
+                    else if(how == 'd'){
+                        document.querySelector('#row-1-col-1').classList.add('red-bg');
+                        document.querySelector('#row-2-col-1').classList.add('red-bg');
+                        document.querySelector('#row-3-col-1').classList.add('red-bg');
+                    }
+                    else if(how == 'e'){
+                        document.querySelector('#row-1-col-2').classList.add('red-bg');
+                        document.querySelector('#row-2-col-2').classList.add('red-bg');
+                        document.querySelector('#row-3-col-2').classList.add('red-bg');
+                    }
+                    else if(how == 'f'){
+                        document.querySelector('#row-1-col-3').classList.add('red-bg');
+                        document.querySelector('#row-2-col-3').classList.add('red-bg');
+                        document.querySelector('#row-3-col-3').classList.add('red-bg');
+                    }
+                    else if(how == 'g'){
+                        document.querySelector('#row-1-col-2').classList.add('red-bg');
+                        document.querySelector('#row-2-col-2').classList.add('red-bg');
+                        document.querySelector('#row-3-col-2').classList.add('red-bg');
+                    }
+                    else if(how == 'h'){
+                        document.querySelector('#row-1-col-1').classList.add('red-bg');
+                        document.querySelector('#row-2-col-2').classList.add('red-bg');
+                        document.querySelector('#row-3-col-3').classList.add('red-bg');
+                    }
+                    else if(how == 'i'){
+                        document.querySelector('#row-1-col-3').classList.add('red-bg');
+                        document.querySelector('#row-2-col-2').classList.add('red-bg');
+                        document.querySelector('#row-3-col-1').classList.add('red-bg');
+                    }
+                    else if(how == 'j'){
+                        document.querySelector('#row-1-col-1').classList.add('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.add('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.add('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.add('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.add('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.add('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.add('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.add('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.add('gray-bg');
+                    }
+                    else if(how == 0){
+                        document.querySelector('#row-1-col-1').classList.remove('red-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('red-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('red-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('red-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('red-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('red-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('red-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('red-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('red-bg');
+
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
                     }
                     break;
             }
@@ -626,6 +744,7 @@ function getGameInfo(snapshot){
 }
 
 var whoWin;
+var howWin = '';
 function checkWin(){
     var GridRow1 = [];
     var GridRow2 = [];
@@ -640,26 +759,32 @@ function checkWin(){
     if(GridRow1[1] != '' & GridRow1[2] != '' & GridRow1[3] != ''){
         if (GridRow1[1] == 'X' & GridRow1[2] == 'X' & GridRow1[3] == 'X'){
             whoWin = 'Winner: X';
+            howWin = 'a';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
             
         }
         else if (GridRow1[1] == 'O' & GridRow1[2] == 'O' & GridRow1[3] == 'O'){
             whoWin = 'Winner: O';
+            howWin = 'a';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }        
@@ -667,25 +792,31 @@ function checkWin(){
     if(GridRow2[1] != '' & GridRow2[2] != '' & GridRow2[3] != ''){
         if (GridRow2[1] == 'X' & GridRow2[2] == 'X' & GridRow2[3] == 'X'){
             whoWin = 'Winner: X';
+            howWin = 'b';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }
         else if (GridRow2[1] == 'O' & GridRow2[2] == 'O' & GridRow2[3] == 'O'){
             whoWin = 'Winner: O';
+            howWin = 'b';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }        
@@ -693,25 +824,31 @@ function checkWin(){
     if(GridRow3[1] != '' & GridRow3[2] != '' & GridRow3[3] != ''){
         if (GridRow3[1] == 'X' & GridRow3[2] == 'X' & GridRow3[3] == 'X'){
             whoWin = 'Winner: X';
+            howWin = 'c';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }
         else if (GridRow3[1] == 'O' & GridRow3[2] == 'O' & GridRow3[3] == 'O'){
             whoWin = 'Winner: O';
+            howWin = 'c';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }        
@@ -720,25 +857,31 @@ function checkWin(){
     if(GridRow1[1] != '' & GridRow2[1] != '' & GridRow3[1] != ''){
         if (GridRow1[1] == 'X' & GridRow2[1] == 'X' & GridRow3[1] == 'X'){
             whoWin = 'Winner: X';
+            howWin = 'd';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }
         else if (GridRow1[1] == 'O' & GridRow2[1] == 'O' & GridRow3[1] == 'O'){
             whoWin = 'Winner: O';
+            howWin = 'd';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }        
@@ -746,25 +889,31 @@ function checkWin(){
     if(GridRow1[2] != '' & GridRow2[2] != '' & GridRow3[2] != ''){
         if (GridRow1[2] == 'X' & GridRow2[2] == 'X' & GridRow3[2] == 'X'){
             whoWin = 'Winner: X';
+            howWin = 'e';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }
         else if (GridRow1[2] == 'O' & GridRow2[2] == 'O' & GridRow3[2] == 'O'){
             whoWin = 'Winner: O';
+            howWin = 'e';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }        
@@ -772,25 +921,31 @@ function checkWin(){
     if(GridRow1[3] != '' & GridRow2[3] != '' & GridRow3[3] != ''){
         if (GridRow1[3] == 'X' & GridRow2[3] == 'X' & GridRow3[3] == 'X'){
             whoWin = 'Winner: X';
+            howWin = 'f';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }
         else if (GridRow1[3] == 'O' & GridRow2[3] == 'O' & GridRow3[3] == 'O'){
             whoWin = 'Winner: O';
+            howWin = 'f';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }        
@@ -798,25 +953,31 @@ function checkWin(){
     if(GridRow1[2] != '' & GridRow2[2] != '' & GridRow3[2] != ''){
         if (GridRow1[2] == 'X' & GridRow2[2] == 'X' & GridRow3[2] == 'X'){
             whoWin = 'Winner: X';
+            howWin = 'g';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }
         else if (GridRow1[2] == 'O' & GridRow2[2] == 'O' & GridRow3[2] == 'O'){
             whoWin = 'Winner: O';
+            howWin = 'g';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }        
@@ -824,25 +985,31 @@ function checkWin(){
     if(GridRow1[1] != '' & GridRow2[2] != '' & GridRow3[3] != ''){
         if (GridRow1[1] == 'X' & GridRow2[2] == 'X' & GridRow3[3] == 'X'){
             whoWin = 'Winner: X';
+            howWin = 'h';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }
         else if (GridRow1[1] == 'O' & GridRow2[2] == 'O' & GridRow3[3] == 'O'){
             whoWin = 'Winner: O';
+            howWin = 'h';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }        
@@ -850,41 +1017,51 @@ function checkWin(){
     if(GridRow1[3] != '' & GridRow2[2] != '' & GridRow3[1] != ''){
         if (GridRow1[3] == 'X' & GridRow2[2] == 'X' & GridRow3[1] == 'X'){
             whoWin = 'Winner: X';
+            howWin = 'i';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }
         else if (GridRow1[3] == 'O' & GridRow2[2] == 'O' & GridRow3[1] == 'O'){
             whoWin = 'Winner: O';
+            howWin = 'i';
             let checkST = `room-state`;
-            let who_Win = `WinnerIs`
+            let who_Win = `WinnerIs`;
+            let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
+                        [how_win]: howWin,
                     });
                 });
         }        
     }
-    if (GridRow1[1] != '' & GridRow1[2] != '' & GridRow1[3] != '' & GridRow2[1] != '' & GridRow2[2] != '' & GridRow2[3] != '' & GridRow3[1] != '' & GridRow3[2] != '' & GridRow3[3] != ''){
+    if (GridRow1[1] != '' && GridRow1[2] != '' && GridRow1[3] != '' && GridRow2[1] != '' && GridRow2[2] != '' && GridRow2[3] != '' && GridRow3[1] != '' && GridRow3[2] != '' && GridRow3[3] != ''){
         whoWin = 'Draw';
+        howWin = 'j';
         let checkST = `room-state`;
-        let who_Win = `WinnerIs`
+        let who_Win = `WinnerIs`;
+        let how_win = `HowWin`;
         ref.once("value")
         .then(function(snapshot) {
                 ref.child('game-1').update({
                     [checkST]: 3,
                     [who_Win]:whoWin,
+                    [how_win]: howWin,
                 });      
             });
+
     }
-    console.log('Check',GridRow1[1],GridRow1[2],GridRow1[3])
+    console.log('Check',GridRow1[1],GridRow1[2],GridRow1[3],howWin)
 
 }

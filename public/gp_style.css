@@ -29,11 +29,11 @@ html, body {
 }
 
 .borderTB{
-    border: 15px solid var(--color2);
+    border: 14px solid var(--color2);
     border-radius: 20px;
     background: var(--color2);
     max-width: 40vw;
-    margin-top: 12%;
+    margin-top: 10%;
 }
 .borderTB-inner{
     border-radius: 10px;
@@ -224,4 +224,24 @@ html, body {
     height: 3vw;
     margin: 1vw;
     border-radius: 20px;
+}
+
+.red-bg{
+    background-color: var(--color3);
+    color: #fff;
+}
+.gray-bg{
+    background-color:silver;
+}
+.active{
+    animation: active 1s ease;
+}
+
+@keyframes active{
+    0%{
+        background-color:#ffd52f;
+    }
+    100%{
+        background-color: #fff;
+    }
 }
