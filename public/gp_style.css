@@ -102,7 +102,7 @@ html, body {
     cursor: pointer;
 
 }
-.butStyle1{
+#butStyle1{
     border: 5px solid var(--color3);
     width: 7vw;
     height: 7vw;
@@ -147,7 +147,7 @@ html, body {
     
 }
 
-.butStyle2{
+#butStyle2{
     border: 5px solid var(--color3);
     width: 7vw;
     height: 7vw;
