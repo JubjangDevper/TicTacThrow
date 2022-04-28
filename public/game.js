@@ -571,8 +571,8 @@ function getGameInfo(snapshot){
                                 if(ImgSym == 'h' && ImgSym_onBoard == "p" && checkBoard != 1){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active');
+                                    document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     document.querySelector('#statusText').innerText = 'X Win HPS';
-                                    writeonBoard.style.backgroundColor = '#dedede';
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -584,7 +584,7 @@ function getGameInfo(snapshot){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active');
                                     document.querySelector('#statusText').innerText = 'X Win HPS';
-                                    writeonBoard.style.backgroundColor = '#dedede';
+                                    document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -596,7 +596,7 @@ function getGameInfo(snapshot){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active');
                                     document.querySelector('#statusText').innerText = 'X Win HPS';
-                                    writeonBoard.style.backgroundColor = '#dedede';
+                                    document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -610,7 +610,7 @@ function getGameInfo(snapshot){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active');
                                     document.querySelector('#statusText').innerText = 'O Win HPS';
-                                    writeonBoard.style.backgroundColor = '#dedede';
+                                    document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -622,7 +622,7 @@ function getGameInfo(snapshot){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active');
                                     document.querySelector('#statusText').innerText = 'O Win HPS';
-                                    writeonBoard.style.backgroundColor = '#dedede';
+                                    document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -634,7 +634,7 @@ function getGameInfo(snapshot){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active')
                                     document.querySelector('#statusText').innerText = 'O Win HPS';
-                                    writeonBoard.style.backgroundColor = '#dedede';
+                                    document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -661,49 +661,132 @@ function getGameInfo(snapshot){
                 case 'HowWin':
                     how = gameInfos[key];
                     if(how == 'a'){
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
                         document.querySelector('#row-1-col-1').classList.add('red-bg');
                         document.querySelector('#row-1-col-2').classList.add('red-bg');
                         document.querySelector('#row-1-col-3').classList.add('red-bg');
+                        
                     }
                     else if(how == 'b'){
                         document.querySelector('#row-2-col-1').classList.add('red-bg');
                         document.querySelector('#row-2-col-2').classList.add('red-bg');
                         document.querySelector('#row-2-col-3').classList.add('red-bg');
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
                     }
                     else if(how == 'c'){
                         document.querySelector('#row-3-col-1').classList.add('red-bg');
                         document.querySelector('#row-3-col-2').classList.add('red-bg');
                         document.querySelector('#row-3-col-3').classList.add('red-bg');
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
                     }
                     else if(how == 'd'){
                         document.querySelector('#row-1-col-1').classList.add('red-bg');
                         document.querySelector('#row-2-col-1').classList.add('red-bg');
                         document.querySelector('#row-3-col-1').classList.add('red-bg');
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
                     }
                     else if(how == 'e'){
                         document.querySelector('#row-1-col-2').classList.add('red-bg');
                         document.querySelector('#row-2-col-2').classList.add('red-bg');
                         document.querySelector('#row-3-col-2').classList.add('red-bg');
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
                     }
                     else if(how == 'f'){
                         document.querySelector('#row-1-col-3').classList.add('red-bg');
                         document.querySelector('#row-2-col-3').classList.add('red-bg');
                         document.querySelector('#row-3-col-3').classList.add('red-bg');
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
                     }
                     else if(how == 'g'){
                         document.querySelector('#row-1-col-2').classList.add('red-bg');
                         document.querySelector('#row-2-col-2').classList.add('red-bg');
                         document.querySelector('#row-3-col-2').classList.add('red-bg');
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
                     }
                     else if(how == 'h'){
                         document.querySelector('#row-1-col-1').classList.add('red-bg');
                         document.querySelector('#row-2-col-2').classList.add('red-bg');
                         document.querySelector('#row-3-col-3').classList.add('red-bg');
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
                     }
                     else if(how == 'i'){
                         document.querySelector('#row-1-col-3').classList.add('red-bg');
                         document.querySelector('#row-2-col-2').classList.add('red-bg');
                         document.querySelector('#row-3-col-1').classList.add('red-bg');
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
+                        
                     }
                     else if(how == 'j'){
                         document.querySelector('#row-1-col-1').classList.add('gray-bg');
@@ -715,6 +798,15 @@ function getGameInfo(snapshot){
                         document.querySelector('#row-3-col-1').classList.add('gray-bg');
                         document.querySelector('#row-3-col-2').classList.add('gray-bg');
                         document.querySelector('#row-3-col-3').classList.add('gray-bg');
+                        document.querySelector('#row-1-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-1-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-2-col-3').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-1').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-2').classList.remove('gray-bg');
+                        document.querySelector('#row-3-col-3').classList.remove('gray-bg');
                     }
                     else if(how == 0){
                         document.querySelector('#row-1-col-1').classList.remove('red-bg');

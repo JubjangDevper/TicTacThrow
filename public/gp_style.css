@@ -9,6 +9,7 @@
     --color2: #3f3d56;
     --color3: #c3001e;
     --color4: #3a0000;
+    --color5: rgb(183, 183, 183);
   }
 
 html, body {
@@ -231,7 +232,8 @@ html, body {
     color: #fff;
 }
 .gray-bg{
-    background-color:silver;
+    background-color:var(--color5);
+    color: #000;
 }
 .active{
     animation: active 1s ease;
