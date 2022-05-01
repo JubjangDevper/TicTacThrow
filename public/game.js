@@ -10,6 +10,7 @@ firebase.auth().onAuthStateChanged((user) => {
 function setupUI(user){
     if (user) {
         joinGame();
+
     } 
     else {
     }
@@ -835,6 +836,13 @@ function getGameInfo(snapshot){
     });
 }
 
+
+function AddRank(){
+    document.getElementById("rankList").innerHTML = ``;
+    
+};
+
+
 var whoWin;
 var howWin = '';
 function checkWin(){
@@ -857,12 +865,44 @@ function checkWin(){
             let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
+                var userx = snapshot.child("game-1/user-x-email").val();
+                var usero = snapshot.child("game-1/user-o-email").val();
+                var userxid = snapshot.child("game-1/user-x-id").val();
+                var useroid = snapshot.child("game-1/user-o-id").val();
+                let SumScore = `SumScore`;
+                let countPlay = `countPlay`;
+                let countWin = `countWin`
+                var RTScoreX = snapshot.child(`leaderboard/SumScore-${userxid}`).val();
+                var RTScoreO = snapshot.child(`leaderboard/SumScore-${useroid}`).val();
+                var RTcountPlayX = snapshot.child(`leaderboard/countPlay-${userxid}`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/countPlay-${userxid}`).val();
+                var RTcountWinX = snapshot.child(`leaderboard/countWin-${userxid}`).val();
+                let LeaderNameX = `LeaderName-${userxid}`;
+                let LeaderNameO = `LeaderName-${useroid}`;
+                let LeaderName = `LeaderName`;
+                RTScoreX += 100;
+                RTScoreO -= 30;
+                RTcountPlayX += 1;
+                RTcountPlayO += 1;
+                RTcountWinX +=1 ;
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
                         [how_win]: howWin,
                     });
+                    ref.child(`leaderboard/${LeaderNameX}`).update({
+                        [LeaderName]: userx,
+                        [SumScore]: RTScoreX,
+                        [countPlay]: RTcountPlayX,
+                        [countWin]: RTcountWinX,
+                    });
+                    ref.child(`leaderboard/${LeaderNameO}`).update({
+                        [LeaderName]: usero,
+                        [SumScore]: RTScoreO,
+                        [countPlay]: RTcountPlayO,
+                    });
                 });
+
             
         }
         else if (GridRow1[1] == 'O' & GridRow1[2] == 'O' & GridRow1[3] == 'O'){
@@ -873,10 +913,41 @@ function checkWin(){
             let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
+                var userx = snapshot.child("game-1/user-x-email").val();
+                var usero = snapshot.child("game-1/user-o-email").val();
+                var userxid = snapshot.child("game-1/user-x-id").val();
+                var useroid = snapshot.child("game-1/user-o-id").val();
+                let SumScore = `SumScore`;
+                let countPlay = `countPlay`;
+                let countWin = `countWin`
+                var RTScoreX = snapshot.child(`leaderboard/SumScore-${userxid}`).val();
+                var RTScoreO = snapshot.child(`leaderboard/SumScore-${useroid}`).val();
+                var RTcountPlayX = snapshot.child(`leaderboard/countPlay-${userxid}`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/countPlay-${userxid}`).val();
+                var RTcountWinX = snapshot.child(`leaderboard/countWin-${userxid}`).val();
+                let LeaderNameX = `LeaderName-${userxid}`;
+                let LeaderNameO = `LeaderName-${useroid}`;
+                let LeaderName = `LeaderName`;
+                RTScoreO += 100;
+                RTScoreX -= 30;
+                RTcountPlayX += 1;
+                RTcountPlayO += 1;
+                RTcountWinO +=1 ;
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
                         [how_win]: howWin,
+                    });
+                    ref.child(`leaderboard/${LeaderNameX}`).update({
+                        [LeaderName]: userx,
+                        [SumScore]: RTScoreX,
+                        [countPlay]: RTcountPlayX,
+                    });
+                    ref.child(`leaderboard/${LeaderNameO}`).update({
+                        [LeaderName]: usero,
+                        [SumScore]: RTScoreO,
+                        [countPlay]: RTcountPlayO,
+                        [countWin]: RTcountWinO,
                     });
                 });
         }        
