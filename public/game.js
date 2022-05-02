@@ -1,5 +1,4 @@
 const ref = firebase.database().ref('Game');
-const db = firebase.database();
 
 firebase.auth().onAuthStateChanged((user) => {
     console.log('User: ',user);
@@ -10,7 +9,6 @@ firebase.auth().onAuthStateChanged((user) => {
 function setupUI(user){
     if (user) {
         joinGame();
-
     } 
     else {
     }
@@ -24,23 +22,23 @@ var btnLogout = document.getElementById('btnLogout');
 btnLogout.addEventListener('click',logout)
 
 function logout(){
-            let roomState = `room-state`
-            ref.child('game-1').update({
-                [roomState]: 5,
-            });
+            ref.child('game-1').remove();
         alert("Are you sure to Give up?");
         location.href = 'index.html'
         console.log("Give up")
 }
 
-function joinGame(event){
+function joinGame(){
     const currentUser = firebase.auth().currentUser;
     console.log('[Join] Current user:', currentUser);
     var playerX = document.getElementById(`user-name-x`).innerText;
-    console.log('1111')
     if(currentUser){
         ref.once("value")
             .then(function(snapshot) {
+            let roundCount = `round`;
+            ref.child('game-1').update({
+                [roundCount]: 1,
+            });
             var room = snapshot.child("game-1/room-state").val();
             console.log(room)
         if(room == null){
@@ -49,7 +47,9 @@ function joinGame(event){
             let roomState = `room-state`
             let tmpImg = `user-x-img`
             let dpName =  `user-x-name`
+            let roundCount = `round`;
             ref.child('game-1').update({
+                [roundCount]: 1,
                 [tmpID]: currentUser.uid,
                 [tmpEmail]: currentUser.email,
                 [tmpImg]:currentUser.photoURL,
@@ -64,14 +64,16 @@ function joinGame(event){
             let roomState = `room-state`
             let tmpImg = `user-o-img`
             let dpName =  `user-o-name`
+            let roundCount = `round`;
             ref.child('game-1').update({
+                [roundCount]: 1,
                 [tmpID]: currentUser.uid,
                 [tmpEmail]: currentUser.email,
                 [tmpImg]:currentUser.photoURL,
                 [roomState]: 2,
                 [dpName]:currentUser.displayName,
             });
-            console.log(currentUser.email+' added.');
+            console.log(currentUser.email+' added.');        
         }
         ref.once("value")
             .then(function(snapshot) {
@@ -89,7 +91,7 @@ function joinGame(event){
     }
 }
 
-
+window.onload = joinGame;
 
 //random
 
@@ -217,7 +219,7 @@ function charge(event){
     const player = btnJoinID[btnJoinID.length - 1];
     let heightbar =  document.getElementById(`hold-${player}`);
     var startTime = new Date().getTime();
-    var round = 0;
+    var round = 1;
     timerInterval = setInterval(function(){
             for (let i = -2.3; i < (new Date().getTime()/1000 - startTime/1000) ; i++) {
                     if(round == 0) {
@@ -233,15 +235,12 @@ function charge(event){
                         round = 0;
                     }
                     powerValue = document.querySelector(`.power-${player}`).offsetHeight;
-                    console.log('timer-Plus: ' + (parseInt(timer/100) % 3),timer,powerValue);
                     return powerValue;
             }
   });
     //console.log(timer)
     heightbar.classList.add("play-anim");
     heightbar.classList.remove("paused");
-    console.log('Exc',gunPosit , powerValue,randomImg,countXO)
-    console.log('Add',mouseState,countXO)
 }
 
 var countXO;
@@ -502,7 +501,6 @@ function release(event){
     heightbar.classList.add("paused");
     clearInterval(timerInterval);
     timer = 0;
-    console.log('clear',heightbar.id, mouseState)
     setTimeout(putXO,200);  
     setTimeout(function(){
     heightbar.classList.remove("play-anim");
@@ -565,7 +563,6 @@ function getGameInfo(snapshot){
                             var onBoard_sym = snapshot.child("game-1/onBoard_sym").val(); 
                             var ImgSym_onBoard = onBoard_img[onBoard_img.length - 2];
                             var checkBoard = snapshot.child(`game-1/checkBoard-${onBoard}`).val();
-                            console.log(whatSym,ImgSym,'---',onBoard_img,onBoard_sym,ImgSym_onBoard,checkBoard,onBoard)
                             if(whatSym == ''){
                                 writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                 writeonBoard.classList.add('active');
@@ -660,7 +657,6 @@ function getGameInfo(snapshot){
                         document.getElementById('button-o').style.backgroundColor = 'grey';
                         document.getElementById('butStyle1').style.border = '0px solid white';
                         document.getElementById('butStyle2').style.border = '0px solid white';
-                        
                         console.log(winner);
                     }
                 case 'HowWin':
@@ -851,11 +847,13 @@ function AddRankItem(name,imgProfile,sumPlay,winRate,point){
     let td5 = document.createElement('td');
     let td6 = document.createElement('td');
 
+    let sumRate = parseInt((winRate/sumPlay)*100)
+
     td1.innerHTML = ++no;
     td2.innerHTML = `<img src='${imgProfile}' style='width:3vw;border-radius:50px;'/>`;
     td3.innerHTML = name;
     td4.innerHTML = sumPlay;
-    td5.innerHTML = winRate;
+    td5.innerHTML = sumRate + ' %';
     td6.innerHTML = point;
 
     tr.appendChild(td1);
@@ -887,6 +885,7 @@ function GetAllData(){
 
 window.onload = GetAllData;
 
+
 var whoWin;
 var howWin = '';
 function checkWin(){
@@ -916,11 +915,12 @@ function checkWin(){
                 let SumScore = `SumScore`;
                 let countPlay = `countPlay`;
                 let countWin = `countWin`
-                var RTScoreX = snapshot.child(`leaderboard/SumScore-${userxid}`).val();
-                var RTScoreO = snapshot.child(`leaderboard/SumScore-${useroid}`).val();
-                var RTcountPlayX = snapshot.child(`leaderboard/countPlay-${userxid}`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/countPlay-${userxid}`).val();
-                var RTcountWinX = snapshot.child(`leaderboard/countWin-${userxid}`).val();
+                var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
+                var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
+                var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
+                var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
@@ -932,6 +932,10 @@ function checkWin(){
                 RTcountPlayX += 1;
                 RTcountPlayO += 1;
                 RTcountWinX +=1 ;
+                if(RTcountWinO === undefined){
+                    RTcountWinO = 0;
+                }
+                console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
@@ -948,11 +952,11 @@ function checkWin(){
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
+                        [countWin]: RTcountWin0,
                         [imgProfile]:imgO,
-
                     });
+                    console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
-
             
         }
         else if (GridRow1[1] == 'O' & GridRow1[2] == 'O' & GridRow1[3] == 'O'){
@@ -963,26 +967,34 @@ function checkWin(){
             let how_win = `HowWin`;
             ref.once("value")
             .then(function(snapshot) {
-                var userx = snapshot.child("game-1/user-x-email").val();
-                var usero = snapshot.child("game-1/user-o-email").val();
+                var userx = snapshot.child("game-1/user-x-name").val();
+                var usero = snapshot.child("game-1/user-o-name").val();
                 var userxid = snapshot.child("game-1/user-x-id").val();
                 var useroid = snapshot.child("game-1/user-o-id").val();
                 let SumScore = `SumScore`;
                 let countPlay = `countPlay`;
                 let countWin = `countWin`
-                var RTScoreX = snapshot.child(`leaderboard/SumScore-${userxid}`).val();
-                var RTScoreO = snapshot.child(`leaderboard/SumScore-${useroid}`).val();
-                var RTcountPlayX = snapshot.child(`leaderboard/countPlay-${userxid}`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/countPlay-${userxid}`).val();
-                var RTcountWinX = snapshot.child(`leaderboard/countWin-${userxid}`).val();
+                var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
+                var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
+                var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
+                var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
-                RTScoreO += 100;
+                let imgProfile = `imgProfile`;
+                var imgX = snapshot.child("game-1/user-x-img").val();
+                var imgO = snapshot.child("game-1/user-o-img").val();
                 RTScoreX -= 30;
+                RTScoreO += 100;
                 RTcountPlayX += 1;
                 RTcountPlayO += 1;
                 RTcountWinO +=1 ;
+                if(RTcountWinX === undefined){
+                    RTcountWinX = 0;
+                }
+                console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                     ref.child('game-1').update({
                         [checkST]: 3,
                         [who_Win]:whoWin,
@@ -992,15 +1004,19 @@ function checkWin(){
                         [LeaderName]: userx,
                         [SumScore]: RTScoreX,
                         [countPlay]: RTcountPlayX,
+                        [countWin]: RTcountWinX,
+                        [imgProfile]:imgX,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWinO,
+                        [countWin]: RTcountWin0,
+                        [imgProfile]:imgO,
                     });
+                    console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
-        }        
+        }
     }
     if(GridRow2[1] != '' & GridRow2[2] != '' & GridRow2[3] != ''){
         if (GridRow2[1] == 'X' & GridRow2[2] == 'X' & GridRow2[3] == 'X'){
@@ -1278,3 +1294,5 @@ function checkWin(){
     console.log('Check',GridRow1[1],GridRow1[2],GridRow1[3],howWin)
 
 }
+
+
