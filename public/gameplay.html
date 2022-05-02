@@ -105,13 +105,12 @@
                   <!--HOLD EVENTS PLAYER 2 -->
                   <div class="chargeBar2 d-flex"><div id="hold-o" class="power-o align-self-end"></div></div>
                   <div id="butStyle2" class="butStyle2"><button id="button-o" class="holdbutt">HOLD</button></div>
-
                 </div>
             </div>
           </div>
           
           <div class="modal " id="myModal">
-            <div class="modal-dialog modal-md">
+            <div class="modal-dialog modal-xl">
               <div class="modal-content">
           
                 <!-- Modal Header -->
@@ -122,17 +121,17 @@
           
                 <!-- Modal body -->
                 <div class="modal-body" id="rankList">
-                  <div class="card row">
-                    <div class="card-body d-flex">
-                      <h4 class="align-self-center mx-2 col-1">1st</h4>
-                      <img class="col-1 mx-4" src="assets/user.png" style="width: 4vw;" alt="">
-                      <div class="col  align-self-center text-center" id="NameOnBoard">
-                          <b>Jessy Leal</b>
-                        </div>
-                      <b class="col-2 align-self-center" id="winRate">12</b>
-                      <b class="col-2 align-self-center" id="SumScore">345point</b>
-                    </div>
-                  </div>
+                  <table class="table">
+                    <thead class="table-light">
+                      <th class="text-center">Rank</th>
+                      <th class="text-center"></th>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">Game</th>
+                      <th class="text-center">WinRate</th>
+                      <th class="text-center">Point</th>
+                    </thead>
+                    <tbody id="tbody1" class="text-center"></tbody>
+                  </table>
                 </div>
           
                 <!-- Modal footer -->
