@@ -13,6 +13,9 @@
 
 body{
     background-color: var(--color1);
+    background-image: url(assets/Group_142x.png);
+    background-repeat: no-repeat;
+    background-size:cover;
 
   }
 
@@ -71,3 +74,32 @@ body{
     border-radius: 30px;
     padding:0.5vw 5.6vw 0.5vw 5.6vw;
 }
+
+nav{
+    z-index: -2;
+}
+
+.compo{
+    margin-top: 10vw;
+}
+
+#btnSignup{
+    text-decoration: underline solid 0.14vw rgb(44, 96, 229);
+    font-size: 1.2vw;
+    color:rgb(44, 96, 229);
+    cursor: pointer;
+}
+#btnLoginEmail{
+    margin: 1vw;
+    font-size: 1vw;
+    padding-top: 1.2vw;
+    padding-bottom: 1.2vw;
+}
+.my-custom-scrollbar {
+    position: relative;
+    height: 60vh;
+    overflow: auto;
+    }
+.table-wrapper-scroll-y {
+    display: block;
+    }

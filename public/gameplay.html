@@ -28,28 +28,29 @@
             TicTacThrow
           </a>
           <div>
-            <i  class="bi bi-trophy-fill text-white mx-3 " data-bs-toggle="modal" data-bs-target="#myModal" style="font-size:2vw;"></i>
-            <i class="bi bi-question-circle-fill text-white mx-1" style="font-size:2vw;"></i>
+            <span class="text-white mx-3" id="myScore" style="font-size:1.3vw;">...</span>
+            <i  class="bi bi-trophy-fill text-white mx-3 " data-bs-toggle="modal" data-bs-target="#myModal"  style="font-size:2vw;"></i>
+            <i class="bi bi-question-circle-fill text-white mx-1" data-bs-toggle="modal" data-bs-target="#tutor" style="font-size:2vw;"></i>
             <i class="bi bi-flag-fill text-white mx-3" id="btnLogout" style="font-size:2vw;"></i>
           </div>
         </nav>
-        <div class="container-fluid" style="overflow: hidden;">
+        <div class="container-fluid">
             <div class="row ">
                 <div class="col-3">
-                  <div class="row">
+                  <div class="row ">
                     <div class="col-5">                      
                       <span id="user-profile-x"><img src='assets/user.png' class="display-img1"></span>
                     </div>
-                    <div class="col-7 mt-5">
+                    <div class="col-7 mt-5 ">
                       <span id="user-name-x"></span>
-                      <span id="user-position-x"><h5 class="display-state1">Player X</h5></span>
+                      <span id="user-position-x"><h5 class="display-state1">Player X</p></span>
                     </div>
                   </div>
                   <!-- PROFILE PLAYER 1 HERE -->
                   
                   <!--HOLD EVENTS PLAYER 1 -->
-                  <div class="chargeBar1 d-flex"><div id="hold-x" id="power-x" class="power-x align-self-end"></div></div>
-                  <div id="butStyle1" class="butStyle1"><button id="button-x" class="holdbutt">HOLD</button></div>
+                  <div class="chargeBar-x d-flex"><div id="hold-x" id="power-x" class="power-x align-self-end"></div></div>
+                  <div id="butStyle1" class="butStyle1"><button id="button-x" class="holdbutt" style="font-size:1vw;"></button></div>
                 </div>
 
                 <div class="col-6" align="center">
@@ -103,8 +104,8 @@
                     
                   </div>
                   <!--HOLD EVENTS PLAYER 2 -->
-                  <div class="chargeBar2 d-flex"><div id="hold-o" class="power-o align-self-end"></div></div>
-                  <div id="butStyle2" class="butStyle2"><button id="button-o" class="holdbutt">HOLD</button></div>
+                  <div class="chargeBar-o d-flex"><div id="hold-o" class="power-o align-self-end"></div></div>
+                  <div id="butStyle2" class="butStyle2"><button id="button-o" class="holdbutt" style="font-size:1vw;"></button></div>
                 </div>
             </div>
           </div>
@@ -120,17 +121,18 @@
                 </div>
           
                 <!-- Modal body -->
-                <div class="modal-body" id="rankList">
-                  <table class="table">
+                <div class="modal-body table-wrapper-scroll-y my-custom-scrollbar" id="rankList">
+                  <table class="table"  id="table">
                     <thead class="table-light">
                       <th class="text-center">Rank</th>
                       <th class="text-center"></th>
                       <th class="text-center">Name</th>
                       <th class="text-center">Game</th>
                       <th class="text-center">WinRate</th>
-                      <th class="text-center">Point</th>
+                      <th class="text-center" id="point">Point</th>
                     </thead>
-                    <tbody id="tbody1" class="text-center"></tbody>
+                    <tbody id="tbody1" class="text-center">
+                    </tbody>
                   </table>
                 </div>
           
@@ -144,23 +146,49 @@
           </div>
 
           <div class="modal fade" id="winModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="whowin">
-                  ...
+                <div class="modal-body text-center d-flex flex-grow-1 justify-content-center align-items-center"  >
+                    <b class="align-self-center justify-content-center align-items-center" id="whowin" style="font-size: 2vw;"></b>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Exit</button>
-                  <button type="button" class="btn btn-primary">Play Again</button>
+                  <button type="button" class="btn btn-secondary" id="ExitBtn">Exit</button>
+                  <button type="button" class="btn btn-warning" id="AgainBtn">Play Again</button>
                 </div>
               </div>
             </div>
           </div>
           
+          <!--Tutorial-->
+          <div class="modal " id="tutor">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content">
+          
+                <!-- Modal Header -->
+                <div class="modal-header">
+                  <h4 class="modal-title">Tutorial</h4>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+          
+                <!-- Modal body -->
+                <div class="modal-body">
+                  <h5 style="margin-left: 5vw;"> 1. ผู้เล่นต้องเลือก column ที่ต้องการโยนสัญลักษณ์</h5>
+                  <h5 style="margin-left: 5vw;"> 2. ผู้เล่นจะแรนด้อมค้อน กระดาษ และกรรไกร ได้ 1 ครั้งในแต่ละเทิร์น</h5>
+                  <h5 style="margin-left: 5vw;"> 3. หลังจากแรนด้อมแล้ว ผู้เล่นสามารถเลื่อนซ้ายขวาเพื่อให้โยนไปยังกระดานในตำแหน่งที่ต้องการได้โดยการกด Hold ค้างไว้</h5>
+                  <h5 style="margin-left: 5vw;"> 4. หากในตำแหน่งนั้นว่างอยู่จะสามารถทำการโยนได้เลย</h5>
+                  <h5 style="margin-left: 5vw;"> 5. หากโยนไม่ถูกพื้นที่ที่เลือกไว้ช่องนั้น ๆ จะเสียเทิร์นนั้นไป</h5>
+                  <h5 style="margin-left: 5vw;"> 6. หากในตำแหน่งที่ต้องการโยนมีค้อน กระดาษ กรรไกรอยู่ก่อนหน้าจะเข้าสู่เงื่อนไขการเป่ายิงฉุบ โดยผู้ที่ชนะจะสามารถวางทับตำแหน่งของอีกฝ่ายได้ ซึ่งจะสามารถวางทับได้แค่ครั้งเดียวในตำแหน่งนั้น หากเสมอหรือแพ้จะโดนทิ้งและเสียเทิร์นนั้นไป</h5> 
+                  <h5 style="margin-left: 5vw;"> 7. เงื่อนไขการชนะคือ ชื่อของผู้เล่นหรือสัญลักษณ์แทนตัวผู้เล่น(XO) ต้องเรียงเป็นแนวเดียวกัน</h5>
+                </div>
+          
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
       </body>
       <script>
         // Initialize Firebase

@@ -9,6 +9,7 @@ firebase.auth().onAuthStateChanged((user) => {
 function setupUI(user){
     if (user) {
         joinGame();
+        myScore();
     } 
     else {
     }
@@ -19,13 +20,29 @@ ref.on('value', snapshot => {
 })
 
 var btnLogout = document.getElementById('btnLogout');
-btnLogout.addEventListener('click',logout)
+btnLogout.addEventListener('click',giveup)
 
-function logout(){
-            ref.child('game-1').remove();
-        alert("Are you sure to Give up?");
-        location.href = 'index.html'
+function giveup(){
+        let checkST = `room-state`;
+        ref.child('game-1').update({
+            [checkST]: 5,
+        });
+        ref.child('game-1').remove();
         console.log("Give up")
+}
+
+function myScore(){
+    const currentUser = firebase.auth().currentUser;
+    ref.once("value")
+            .then(function(snapshot) {
+            var myid = currentUser.uid;
+            var myscore = snapshot.child(`leaderboard/LeaderName-${myid}/SumScore`).val();
+            if(myscore == null || myscore == undefined){
+                myscore = 0
+            }
+            console.log(myscore,myid)
+            document.querySelector('#myScore').innerHTML ='Your Score: ' + myscore;
+            });
 }
 
 function joinGame(){
@@ -58,7 +75,7 @@ function joinGame(){
             });
             console.log(currentUser.email+' added.');
         }
-        else if(room == 1){
+        else if(room == 1 && currentUser.email != snapshot.child("game-1/user-x-email").val()){
             let tmpID = `user-o-id`;
             let tmpEmail =  `user-o-email`;
             let roomState = `room-state`
@@ -73,7 +90,7 @@ function joinGame(){
                 [roomState]: 2,
                 [dpName]:currentUser.displayName,
             });
-            console.log(currentUser.email+' added.');        
+            console.log(currentUser.email+' added.',snapshot.child("game-1/user-x-email").val());        
         }
         ref.once("value")
             .then(function(snapshot) {
@@ -111,6 +128,7 @@ function loadImg(){
 //random
 
 let randomImg;
+
 var numbers = ['gun-h','gun-p','gun-s'];
   function generateNumber() {
   var duration = 2000;
@@ -171,6 +189,7 @@ generateNumber(0);
 
 //Hold Events
 
+
 //Select Column Function
 
 var gunPosit = 18;
@@ -207,6 +226,7 @@ const btnUp = document.querySelectorAll('.holdbutt');
 btnUp.forEach((btnUp) => btnUp.addEventListener('mouseup', release));
 
 var powerValue = 0;
+var cbar = 0;
 
 function NextGenerate() {
     var duration = 2000;
@@ -250,10 +270,12 @@ function charge(event){
                         round = 0;
                     }
                     powerValue = document.querySelector(`.power-${player}`).offsetHeight;
-                    return powerValue;
+                    cbar = document.querySelector(`.chargeBar-${player}`).offsetHeight
+                    return powerValue,cbar;
+                    
             }
   });
-    //console.log(timer)
+    console.log(powerValue,cbar,(powerValue/cbar)*100)
     heightbar.classList.add("play-anim");
     heightbar.classList.remove("paused");
 }
@@ -262,7 +284,7 @@ var countXO;
 
 function putXO(){
     if(countXO % 2 == 0){
-        if(gunPosit == 4 && powerValue > 240 ){
+        if(gunPosit == 4 && (powerValue/cbar)*100 > 66 ){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -275,7 +297,7 @@ function putXO(){
                 [roundCount]: countXO,
             });
         }
-        else if(gunPosit == 4 && powerValue < 240 && powerValue >= 120){
+        else if(gunPosit == 4 && (powerValue/cbar)*100 < 66 && (powerValue/cbar)*100 >= 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -288,7 +310,7 @@ function putXO(){
                 [roundCount]: countXO,
             });        
         }
-        else if(gunPosit == 4 && powerValue >= 0  && powerValue < 120){
+        else if(gunPosit == 4 && (powerValue/cbar)*100 >= 0  && (powerValue/cbar)*100 < 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -302,7 +324,7 @@ function putXO(){
             });        
         }
         
-        else if(gunPosit == 18 && powerValue > 240 ){
+        else if(gunPosit == 18 && (powerValue/cbar)*100 > 66 ){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -315,7 +337,7 @@ function putXO(){
                 [roundCount]: countXO,
             });        
         }
-        else if(gunPosit == 18 && powerValue < 240 && powerValue >= 120){
+        else if(gunPosit == 18 && (powerValue/cbar)*100 < 66 && (powerValue/cbar)*100 >= 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -328,7 +350,7 @@ function putXO(){
                 [roundCount]: countXO,
             });        
         }
-        else if(gunPosit == 18 && powerValue >= 0  && powerValue < 120){
+        else if(gunPosit == 18 && (powerValue/cbar)*100 >= 0  && (powerValue/cbar)*100 < 66){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -342,7 +364,8 @@ function putXO(){
             });        
         }
         
-        else if(gunPosit == 30 && powerValue > 240 ){
+        else if(gunPosit == 30 && (powerValue/cbar)*100 > 66 ){
+            console.log((powerValue/cbar)*100)
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -355,7 +378,7 @@ function putXO(){
                 [roundCount]: countXO,
             });        
         }
-        else if(gunPosit == 30 && powerValue < 240 && powerValue >= 120){
+        else if(gunPosit == 30 && (powerValue/cbar)*100 < 66 && (powerValue/cbar)*100 >= 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -368,7 +391,7 @@ function putXO(){
                 [roundCount]: countXO,
             });        
         }
-        else if(gunPosit == 30 && powerValue >= 0  && powerValue < 120){
+        else if(gunPosit == 30 && (powerValue/cbar)*100 >= 0  && (powerValue/cbar)*100 < 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -383,7 +406,7 @@ function putXO(){
         }   
     }
     else if (countXO % 2 != 0){
-        if(gunPosit == 4 && powerValue > 240 ){
+        if(gunPosit == 4 && (powerValue/cbar)*100 > 66 ){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -396,7 +419,7 @@ function putXO(){
                 [roundCount]: countXO,
             });
         }
-        else if(gunPosit == 4 && powerValue < 240 && powerValue >= 120){
+        else if(gunPosit == 4 && (powerValue/cbar)*100 < 66 && (powerValue/cbar)*100 >= 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -409,7 +432,7 @@ function putXO(){
                 [roundCount]: countXO,
             });
         }
-        else if(gunPosit == 4 && powerValue >= 0  && powerValue < 120){
+        else if(gunPosit == 4 && (powerValue/cbar)*100 >= 0  && (powerValue/cbar)*100 < 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -423,7 +446,7 @@ function putXO(){
             });        
         }
 
-        else if(gunPosit == 18 && powerValue > 240 ){
+        else if(gunPosit == 18 && (powerValue/cbar)*100 > 66 ){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -436,7 +459,7 @@ function putXO(){
                 [roundCount]: countXO,
             });        
         }
-        else if(gunPosit == 18 && powerValue < 240 && powerValue >= 120){
+        else if(gunPosit == 18 && (powerValue/cbar)*100 < 66 && (powerValue/cbar)*100 >= 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -449,7 +472,7 @@ function putXO(){
                 [roundCount]: countXO,
             });        
         }
-        else if(gunPosit == 18 && powerValue >= 0  && powerValue < 120){
+        else if(gunPosit == 18 && (powerValue/cbar)*100 >= 0  && (powerValue/cbar)*100 < 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -463,7 +486,7 @@ function putXO(){
             });        
         }
 
-        else if(gunPosit == 30 && powerValue > 240 ){
+        else if(gunPosit == 30 && (powerValue/cbar)*100 > 66 ){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -476,7 +499,7 @@ function putXO(){
                 [roundCount]: countXO,
             });        
         }
-        else if(gunPosit == 30 && powerValue < 240 && powerValue >= 120){
+        else if(gunPosit == 30 && (powerValue/cbar)*100 < 66 && (powerValue/cbar)*100 >= 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -489,7 +512,7 @@ function putXO(){
                 [roundCount]: countXO,
             });        
         }
-        else if(gunPosit == 30 && powerValue >= 0  && powerValue < 120){
+        else if(gunPosit == 30 && (powerValue/cbar)*100 >= 0  && (powerValue/cbar)*100 < 33){
             countXO += 1;
             let onBoard = `onBoard`
             let onBoard_img = `onBoard_img`;
@@ -538,9 +561,17 @@ function getGameInfo(snapshot){
                     countXO = snapshot.child("game-1/round").val();
                     if (state == 0){
                         document.querySelector('#statusText').innerText = 'Waiting...';
+                        document.querySelector(`#button-x`).disabled = true;
+                        document.querySelector(`#button-o`).disabled = true;
+                        document.getElementById('button-x').style.backgroundColor = 'grey';
+                        document.getElementById('button-o').style.backgroundColor = 'grey';
                     }
                     if (state == 1){
                         document.querySelector('#statusText').innerText = 'Waiting...';
+                        document.querySelector(`#button-x`).disabled = true;
+                        document.querySelector(`#button-o`).disabled = true;
+                        document.getElementById('button-x').style.backgroundColor = 'grey';
+                        document.getElementById('button-o').style.backgroundColor = 'grey';
                     }
                     if (state == 2){
                         loadImg();
@@ -590,7 +621,6 @@ function getGameInfo(snapshot){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active');
                                     document.querySelector(`#${onBoard}`).classList.add('gray-bg');
-                                    document.querySelector('#statusText').innerText = 'X Win HPS';
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
                                     ref.child('game-1').update({
@@ -601,7 +631,6 @@ function getGameInfo(snapshot){
                                 else if(ImgSym == 's' && ImgSym_onBoard == "h" && checkBoard != 1){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active');
-                                    document.querySelector('#statusText').innerText = 'X Win HPS';
                                     document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
@@ -613,7 +642,6 @@ function getGameInfo(snapshot){
                                 else if(ImgSym == 'p' && ImgSym_onBoard == "s" && checkBoard != 1){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active');
-                                    document.querySelector('#statusText').innerText = 'X Win HPS';
                                     document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
@@ -627,7 +655,6 @@ function getGameInfo(snapshot){
                                 if(ImgSym == 'h' && ImgSym_onBoard == "p"){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active');
-                                    document.querySelector('#statusText').innerText = 'O Win HPS';
                                     document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
@@ -639,7 +666,6 @@ function getGameInfo(snapshot){
                                 else if(ImgSym == 's' && ImgSym_onBoard == "h" && checkBoard != 1){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active');
-                                    document.querySelector('#statusText').innerText = 'O Win HPS';
                                     document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
@@ -651,7 +677,6 @@ function getGameInfo(snapshot){
                                 else if(ImgSym == 'p' && ImgSym_onBoard == "s" && checkBoard != 1){
                                     writeonBoard.innerHTML = `<img id="${onBoard+'-'+onBoard_img}" class="align-self-center"  src="assets/${onBoard_img}.png" style="width:33%;"><p style="font-size: 2vw;">${onBoard_sym}</p>`;
                                     writeonBoard.classList.add('active')
-                                    document.querySelector('#statusText').innerText = 'O Win HPS';
                                     document.querySelector(`#${onBoard}`).classList.add('gray-bg');
                                     console.log('win');
                                     let onBoardOverlap = `checkBoard-${onBoard}`;
@@ -667,6 +692,7 @@ function getGameInfo(snapshot){
                     if (state == 3){
                         var winner = snapshot.child("game-1/WinnerIs").val();
                         document.querySelector('#statusText').innerText = winner;
+                        document.querySelector('#whowin').innerText = winner;
                         document.querySelector(`#button-x`).disabled = true;
                         document.querySelector(`#button-o`).disabled = true;
                         document.getElementById('button-x').style.backgroundColor = 'grey';
@@ -675,6 +701,18 @@ function getGameInfo(snapshot){
                         document.getElementById('butStyle2').style.border = '0px solid white';
                         console.log(winner);
 
+                    }
+                    if (state == 4){
+                        alert("Play Again.");
+                        let checkST = `room-state`;
+                        ref.child('game-1').update({
+                            [checkST]: 2,
+                        });       
+                        location.reload();                 
+                    }
+                    if (state == 5){
+                        alert("A player has left the game");
+                        location.href = 'index.html'
                     }
                 case 'HowWin':
                     how = gameInfos[key];
@@ -708,6 +746,9 @@ function getGameInfo(snapshot){
                         document.querySelector('#row-3-col-1').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-2').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-3').classList.remove('gray-bg');
+                        $(document).ready(function(){
+                            $("#winModal").modal('show');
+                        });
                     }
                     else if(how == 'c'){
                         document.querySelector('#row-3-col-1').classList.add('red-bg');
@@ -722,6 +763,9 @@ function getGameInfo(snapshot){
                         document.querySelector('#row-3-col-1').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-2').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-3').classList.remove('gray-bg');
+                        $(document).ready(function(){
+                            $("#winModal").modal('show');
+                        });
                     }
                     else if(how == 'd'){
                         document.querySelector('#row-1-col-1').classList.add('red-bg');
@@ -736,6 +780,9 @@ function getGameInfo(snapshot){
                         document.querySelector('#row-3-col-1').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-2').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-3').classList.remove('gray-bg');
+                        $(document).ready(function(){
+                            $("#winModal").modal('show');
+                        });
                     }
                     else if(how == 'e'){
                         document.querySelector('#row-1-col-2').classList.add('red-bg');
@@ -750,6 +797,9 @@ function getGameInfo(snapshot){
                         document.querySelector('#row-3-col-1').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-2').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-3').classList.remove('gray-bg');
+                        $(document).ready(function(){
+                            $("#winModal").modal('show');
+                        });
                     }
                     else if(how == 'f'){
                         document.querySelector('#row-1-col-3').classList.add('red-bg');
@@ -764,6 +814,9 @@ function getGameInfo(snapshot){
                         document.querySelector('#row-3-col-1').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-2').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-3').classList.remove('gray-bg');
+                        $(document).ready(function(){
+                            $("#winModal").modal('show');
+                        });
                     }
                     else if(how == 'g'){
                         document.querySelector('#row-1-col-2').classList.add('red-bg');
@@ -778,6 +831,9 @@ function getGameInfo(snapshot){
                         document.querySelector('#row-3-col-1').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-2').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-3').classList.remove('gray-bg');
+                        $(document).ready(function(){
+                            $("#winModal").modal('show');
+                        });
                     }
                     else if(how == 'h'){
                         document.querySelector('#row-1-col-1').classList.add('red-bg');
@@ -792,6 +848,9 @@ function getGameInfo(snapshot){
                         document.querySelector('#row-3-col-1').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-2').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-3').classList.remove('gray-bg');
+                        $(document).ready(function(){
+                            $("#winModal").modal('show');
+                        });
                     }
                     else if(how == 'i'){
                         document.querySelector('#row-1-col-3').classList.add('red-bg');
@@ -806,6 +865,9 @@ function getGameInfo(snapshot){
                         document.querySelector('#row-3-col-1').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-2').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-3').classList.remove('gray-bg');
+                        $(document).ready(function(){
+                            $("#winModal").modal('show');
+                        });
                         
                     }
                     else if(how == 'j'){
@@ -827,8 +889,11 @@ function getGameInfo(snapshot){
                         document.querySelector('#row-3-col-1').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-2').classList.remove('gray-bg');
                         document.querySelector('#row-3-col-3').classList.remove('gray-bg');
+                        $(document).ready(function(){
+                            $("#winModal").modal('show');
+                        });
                     }
-                    else if(how == 0){
+                    else if(how == ''){
                         document.querySelector('#row-1-col-1').classList.remove('red-bg');
                         document.querySelector('#row-1-col-2').classList.remove('red-bg');
                         document.querySelector('#row-1-col-3').classList.remove('red-bg');
@@ -867,6 +932,11 @@ function AddRankItem(name,imgProfile,sumPlay,winRate,point){
     let td6 = document.createElement('td');
 
     let sumRate = parseInt((winRate/sumPlay)*100)
+    console.log(sumRate,winRate,sumPlay)
+    if(winRate == undefined || winRate == null){
+        sumRate = 0;
+    }
+    console.log(sumRate,winRate,sumPlay)
 
     td1.innerHTML = ++no;
     td2.innerHTML = `<img src='${imgProfile}' style='width:3vw;border-radius:50px;'/>`;
@@ -885,14 +955,15 @@ function AddRankItem(name,imgProfile,sumPlay,winRate,point){
 
     tbody.appendChild(tr);
     
+    
 }
 
 
 function GetAllData(){
-    ref.child('leaderboard').on('value', function(snapshot){
+    ref.child('leaderboard').orderByChild(`reverseScore`).on('value', function(snapshot){
         snapshot.forEach(function(childSnapshot){
             var name = childSnapshot.val().LeaderName;
-            var point = childSnapshot.val().SumScore;
+            var point = (childSnapshot.val().SumScore);
             var winRate = childSnapshot.val().countWin;
             var sumPlay = childSnapshot.val().countPlay;
             var imgProfile = childSnapshot.val().imgProfile;
@@ -937,12 +1008,14 @@ function checkWin(){
                 var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
                 var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
                 var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countPlay`).val();
                 var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
                 var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -951,7 +1024,7 @@ function checkWin(){
                 RTcountPlayX += 1;
                 RTcountPlayO += 1;
                 RTcountWinX +=1 ;
-                if(RTcountWinO === undefined){
+                if(RTcountWinO == undefined){
                     RTcountWinO = 0;
                 }
                 console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
@@ -966,13 +1039,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1002,6 +1077,8 @@ function checkWin(){
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1025,13 +1102,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1056,12 +1135,14 @@ function checkWin(){
                 var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
                 var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
                 var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countPlay`).val();
                 var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
                 var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1085,13 +1166,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1120,6 +1203,8 @@ function checkWin(){
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1143,13 +1228,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1174,12 +1261,14 @@ function checkWin(){
                 var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
                 var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
                 var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countPlay`).val();
                 var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
                 var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1203,13 +1292,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1238,6 +1329,8 @@ function checkWin(){
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1261,13 +1354,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1293,12 +1388,14 @@ function checkWin(){
                 var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
                 var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
                 var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countPlay`).val();
                 var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
                 var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1322,13 +1419,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1357,6 +1456,8 @@ function checkWin(){
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1380,13 +1481,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1411,12 +1514,14 @@ function checkWin(){
                 var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
                 var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
                 var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countPlay`).val();
                 var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
                 var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1440,13 +1545,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1475,6 +1582,8 @@ function checkWin(){
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1498,13 +1607,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1529,12 +1640,14 @@ function checkWin(){
                 var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
                 var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
                 var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countPlay`).val();
                 var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
                 var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1558,13 +1671,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1593,6 +1708,8 @@ function checkWin(){
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1616,13 +1733,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1647,12 +1766,14 @@ function checkWin(){
                 var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
                 var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
                 var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countPlay`).val();
                 var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
                 var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1676,13 +1797,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1707,10 +1830,12 @@ function checkWin(){
                 var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
                 var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countPlay`).val();
                 var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
-                var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1734,13 +1859,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1765,12 +1892,14 @@ function checkWin(){
                 var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
                 var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
                 var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countPlay`).val();
                 var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
                 var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1794,13 +1923,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1829,6 +1960,8 @@ function checkWin(){
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1852,13 +1985,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1883,12 +2018,14 @@ function checkWin(){
                 var RTScoreX = snapshot.child(`leaderboard/LeaderName-${userxid}/SumScore`).val();
                 var RTScoreO = snapshot.child(`leaderboard/LeaderName-${useroid}/SumScore`).val();
                 var RTcountPlayX = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
-                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${userxid}/countPlay`).val();
+                var RTcountPlayO = snapshot.child(`leaderboard/LeaderName-${useroid}/countPlay`).val();
                 var RTcountWinX = snapshot.child(`leaderboard/LeaderName-${userxid}/countWin`).val();
                 var RTcountWinO = snapshot.child(`leaderboard/LeaderName-${useroid}/countWin`).val();
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1912,13 +2049,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -1947,6 +2086,8 @@ function checkWin(){
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -1970,13 +2111,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -2006,6 +2149,8 @@ function checkWin(){
                 let LeaderNameX = `LeaderName-${userxid}`;
                 let LeaderNameO = `LeaderName-${useroid}`;
                 let LeaderName = `LeaderName`;
+                let reverseScore = `reverseScore`;
+
                 let imgProfile = `imgProfile`;
                 var imgX = snapshot.child("game-1/user-x-img").val();
                 var imgO = snapshot.child("game-1/user-o-img").val();
@@ -2031,13 +2176,15 @@ function checkWin(){
                         [countPlay]: RTcountPlayX,
                         [countWin]: RTcountWinX,
                         [imgProfile]:imgX,
+                        [reverseScore]:RTScoreX * -1,
                     });
                     ref.child(`leaderboard/${LeaderNameO}`).update({
                         [LeaderName]: usero,
                         [SumScore]: RTScoreO,
                         [countPlay]: RTcountPlayO,
-                        [countWin]: RTcountWin0,
+                        [countWin]: RTcountWinO,
                         [imgProfile]:imgO,
+                        [reverseScore]:RTScoreO * -1,
                     });
                     console.log(RTScoreX,RTScoreO,RTcountPlayX,RTcountPlayO,RTcountWinX);
                 });
@@ -2047,3 +2194,36 @@ function checkWin(){
 
 }
 
+const playAgian = document.querySelector('#AgainBtn') 
+playAgian.addEventListener('click' , rematch)
+
+function rematch(){
+    round = 1;
+    ref.child('game-1/WinnerIs').remove();
+    ref.child('game-1/OnBoard_img').remove();
+    ref.child('game-1/onBoard_sym').remove();
+    let onBoard = `onBoard`;
+    let HowWin = `HowWin`;
+    let checkST = `room-state`;
+    let roundCount = `round`;
+    ref.child('game-1').update({
+        [onBoard]:'',
+        [HowWin]: '',
+        [checkST]: 4,
+        [roundCount]:round,
+    });
+    console.log('Rematch')
+}
+
+
+const exittt = document.querySelector('#ExitBtn') 
+exittt.addEventListener('click' , exits)
+
+function exits(){
+    let checkST = `room-state`;
+    ref.child('game-1').update({
+        [checkST]: 5,
+    });
+    ref.child('game-1').remove();
+    location.href = 'index.html';
+}

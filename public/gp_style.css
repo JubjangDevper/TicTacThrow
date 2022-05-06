@@ -85,7 +85,7 @@ html, body {
 }
 
 /* ---------------- HOLD EVENTS P 1 ---------------- */
-.chargeBar1{
+.chargeBar-x{
     background-color: #fff;
     width: 6vw;
     height: 25vw;
@@ -139,7 +139,7 @@ html, body {
 }
 
 /* ---------------- HOLD EVENTS P 2 ---------------- */
-.chargeBar2{
+.chargeBar-o{
     background-color: #fff;
     width: 6vw;
     height: 25vw;
@@ -246,4 +246,18 @@ html, body {
     100%{
         background-color: #fff;
     }
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 60vh;
+    overflow: auto;
+    }
+.table-wrapper-scroll-y {
+    display: block;
+    }
+.frame{
+    background-color: #fff;
+    border: #3f3d56 solid 0.3vw;
+    border-radius: 20px;
 }
